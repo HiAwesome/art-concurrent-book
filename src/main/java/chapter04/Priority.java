@@ -1,5 +1,7 @@
 package chapter04;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -7,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 6-2
  */
+@Slf4j
 public class Priority {
     private static volatile boolean notStart = true;
     private static volatile boolean notEnd   = true;
@@ -23,12 +26,12 @@ public class Priority {
         }
         notStart = false;
         Thread.currentThread().setPriority(8);
-        System.out.println("done.");
+        log.info("done.");
         TimeUnit.SECONDS.sleep(10);
         notEnd = false;
 
         for (Job job : jobs) {
-            System.out.println("Job Priority : " + job.priority + ", Count : " + job.jobCount);
+            log.info("Job Priority : " + job.priority + ", Count : " + job.jobCount);
         }
 
     }

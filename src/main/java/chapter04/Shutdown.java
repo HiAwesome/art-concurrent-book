@@ -1,10 +1,13 @@
 package chapter04;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * 6-9
  */
+@Slf4j
 public class Shutdown {
     public static void main(String[] args) throws Exception {
         Runner one = new Runner();
@@ -31,7 +34,7 @@ public class Shutdown {
             while (on && !Thread.currentThread().isInterrupted()) {
                 i++;
             }
-            System.out.println("Count i = " + i);
+            log.info("Count i = " + i);
         }
 
         public void cancel() {

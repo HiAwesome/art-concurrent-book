@@ -1,5 +1,7 @@
 package chapter04;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
@@ -7,6 +9,7 @@ import java.io.PipedWriter;
 /**
  * 6-12
  */
+@Slf4j
 public class Piped {
 
     public static void main(String[] args) throws Exception {
@@ -38,7 +41,7 @@ public class Piped {
             int receive = 0;
             try {
                 while ((receive = in.read()) != -1) {
-                    System.out.print((char) receive);
+                    log.info("(char) receive:{}", (char) receive);
                 }
             } catch (IOException ex) {
             }

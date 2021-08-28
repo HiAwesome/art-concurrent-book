@@ -3,13 +3,15 @@
  */
 package chapter05;
 
-import java.util.concurrent.locks.Lock;
-
 import chapter04.SleepUtils;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.locks.Lock;
 
 /**
  * 10-11
  */
+@Slf4j
 public class TwinsLockTest {
 
     public void test() {
@@ -20,7 +22,7 @@ public class TwinsLockTest {
                     lock.lock();
                     try {
                         SleepUtils.second(1);
-                        System.out.println(Thread.currentThread().getName());
+                        log.info(Thread.currentThread().getName());
                         SleepUtils.second(1);
                     } finally {
                         lock.unlock();
@@ -37,7 +39,7 @@ public class TwinsLockTest {
         // 每隔1秒换行
         for (int i = 0; i < 10; i++) {
             SleepUtils.second(1);
-            System.out.println();
+            log.info("\n");
         }
     }
 }

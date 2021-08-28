@@ -1,5 +1,7 @@
 package chapter04;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 6-8
  */
+@Slf4j
 public class Deprecated {
     @SuppressWarnings("deprecation")
     public static void main(String[] args) throws Exception {
@@ -18,15 +21,15 @@ public class Deprecated {
         TimeUnit.SECONDS.sleep(3);
         // 将PrintThread进行暂停，输出内容工作停止
         printThread.suspend();
-        System.out.println("main suspend PrintThread at " + format.format(new Date()));
+        log.info("main suspend PrintThread at " + format.format(new Date()));
         TimeUnit.SECONDS.sleep(20);
         // 将PrintThread进行恢复，输出内容继续
         printThread.resume();
-        System.out.println("main resume PrintThread at " + format.format(new Date()));
+        log.info("main resume PrintThread at " + format.format(new Date()));
         TimeUnit.SECONDS.sleep(3);
         // 将PrintThread进行终止，输出内容停止
         printThread.stop();
-        System.out.println("main stop PrintThread at " + format.format(new Date()));
+        log.info("main stop PrintThread at " + format.format(new Date()));
         TimeUnit.SECONDS.sleep(3);
     }
 
@@ -35,7 +38,7 @@ public class Deprecated {
         public void run() {
             DateFormat format = new SimpleDateFormat("HH:mm:ss");
             while (true) {
-                System.out.println(Thread.currentThread().getName() + " Run at " + format.format(new Date()));
+                log.info(Thread.currentThread().getName() + " Run at " + format.format(new Date()));
                 SleepUtils.second(1);
             }
         }

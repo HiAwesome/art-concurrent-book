@@ -1,10 +1,13 @@
 package chapter04;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * 6-13
  */
+@Slf4j
 public class Join {
     public static void main(String[] args) throws Exception {
         Thread previous = Thread.currentThread();
@@ -16,7 +19,7 @@ public class Join {
         }
 
         TimeUnit.SECONDS.sleep(5);
-        System.out.println(Thread.currentThread().getName() + " terminate.");
+        log.info(Thread.currentThread().getName() + " terminate.");
     }
 
     static class Domino implements Runnable {
@@ -31,7 +34,7 @@ public class Join {
                 thread.join();
             } catch (InterruptedException e) {
             }
-            System.out.println(Thread.currentThread().getName() + " terminate.");
+            log.info(Thread.currentThread().getName() + " terminate.");
         }
     }
 }

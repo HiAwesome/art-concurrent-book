@@ -4,20 +4,23 @@
  */
 package chapter02;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 计数器
- * 
+ *
  * @author tengfei.fangtf
  * @version $Id: Snippet.java, v 0.1 2015-7-31 下午11:32:42 tengfei.fangtf Exp $
  */
+@Slf4j
 public class Counter {
 
     private AtomicInteger atomicI = new AtomicInteger(0);
-    private int           i       = 0;
+    private int i = 0;
 
     public static void main(String[] args) {
         final Counter cas = new Counter();
@@ -48,16 +51,16 @@ public class Counter {
             }
 
         }
-        System.out.println(cas.i);
-        System.out.println(cas.atomicI.get());
-        System.out.println(System.currentTimeMillis() - start);
+        log.info("cas.i:{}", cas.i);
+        log.info("cas.atomicI.get():{}", cas.atomicI.get());
+        log.info("time:{}", System.currentTimeMillis() - start);
     }
 
     /**
      * 使用CAS实现线程安全计数器
      */
     private void safeCount() {
-        for (;;) {
+        for (; ; ) {
             int i = atomicI.get();
             boolean suc = atomicI.compareAndSet(i, ++i);
             if (suc) {

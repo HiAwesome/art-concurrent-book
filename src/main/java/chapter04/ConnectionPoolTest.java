@@ -1,5 +1,7 @@
 package chapter04;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.Connection;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -7,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 6-18
  */
+@Slf4j
 public class ConnectionPoolTest {
     static ConnectionPool pool  = new ConnectionPool(10);
     // 保证所有ConnectionRunner能够同时开始
@@ -27,9 +30,9 @@ public class ConnectionPoolTest {
         }
         start.countDown();
         end.await();
-        System.out.println("total invoke: " + (threadCount * count));
-        System.out.println("got connection:  " + got);
-        System.out.println("not got connection " + notGot);
+        log.info("total invoke: " + (threadCount * count));
+        log.info("got connection:  " + got);
+        log.info("not got connection " + notGot);
     }
 
     static class ConnetionRunner implements Runnable {

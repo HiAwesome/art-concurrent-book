@@ -1,10 +1,13 @@
 package chapter04;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * 6-7
  */
+@Slf4j
 public class Interrupted {
 
     public static void main(String[] args) throws Exception {
@@ -20,8 +23,8 @@ public class Interrupted {
         TimeUnit.SECONDS.sleep(5);
         sleepThread.interrupt();
         busyThread.interrupt();
-        System.out.println("SleepThread interrupted is " + sleepThread.isInterrupted());
-        System.out.println("BusyThread interrupted is " + busyThread.isInterrupted());
+        log.info("SleepThread interrupted is " + sleepThread.isInterrupted());
+        log.info("BusyThread interrupted is " + busyThread.isInterrupted());
         // 防止sleepThread和busyThread立刻退出
         TimeUnit.SECONDS.sleep(2);
     }

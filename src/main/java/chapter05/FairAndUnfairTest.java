@@ -1,5 +1,7 @@
 package chapter05;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * 10-15
  */
+@Slf4j
 public class FairAndUnfairTest {
 
     private static Lock           fairLock   = new ReentrantLock2(true);
@@ -51,7 +54,7 @@ public class FairAndUnfairTest {
             for (int i = 0; i < 2; i++) {
                 lock.lock();
                 try {
-                    System.out.println("Lock by [" + getName() + "], Waiting by " + ((ReentrantLock2) lock).getQueuedThreads());
+                    log.info("Lock by [" + getName() + "], Waiting by " + ((ReentrantLock2) lock).getQueuedThreads());
                 } finally {
                     lock.unlock();
                 }
