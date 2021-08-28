@@ -8,6 +8,7 @@ class VolatileFeaturesExample {
     }
 
     public void getAndIncrement() {
+        //noinspection NonAtomicOperationOnVolatileField
         vl++; //复合（多个）volatile变量的读/写
     }
 
