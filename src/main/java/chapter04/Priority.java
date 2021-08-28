@@ -15,7 +15,7 @@ public class Priority {
     private static volatile boolean notEnd   = true;
 
     public static void main(String[] args) throws Exception {
-        List<Job> jobs = new ArrayList<Job>();
+        List<Job> jobs = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             int priority = i < 5 ? Thread.MIN_PRIORITY : Thread.MAX_PRIORITY;
             Job job = new Job(priority);
@@ -37,7 +37,7 @@ public class Priority {
     }
 
     static class Job implements Runnable {
-        private int  priority;
+        private final int  priority;
         private long jobCount;
 
         public Job(int priority) {
