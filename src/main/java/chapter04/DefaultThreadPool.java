@@ -17,20 +17,25 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
     // 线程池最小的数量
     private static final int      MIN_WORKER_NUMBERS     = 1;
     // 这是一个工作列表，将会向里面插入工作
-    private final LinkedList<Job> jobs                   = new LinkedList<Job>();
+    private final LinkedList<Job> jobs                   = new LinkedList<>();
     // 工作者列表
     private final List<Worker>    workers                = Collections.synchronizedList(new ArrayList<Worker>());
     // 工作者线程的数量
     private int                   workerNum              = DEFAULT_WORKER_NUMBERS;
     // 线程编号生成
-    private AtomicLong            threadNum              = new AtomicLong();
+    private final AtomicLong            threadNum              = new AtomicLong();
 
     public DefaultThreadPool() {
         initializeWokers(DEFAULT_WORKER_NUMBERS);
     }
 
     public DefaultThreadPool(int num) {
-        workerNum = num > MAX_WORKER_NUMBERS ? MAX_WORKER_NUMBERS : num < MIN_WORKER_NUMBERS ? MIN_WORKER_NUMBERS : num;
+        if (num > MAX_WORKER_NUMBERS) {
+            workerNum = MAX_WORKER_NUMBERS;
+        } else {
+            workerNum = Math.max(num, MIN_WORKER_NUMBERS);
+        }
+
         initializeWokers(workerNum);
     }
 
@@ -97,7 +102,7 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
 
         public void run() {
             while (running) {
-                Job job = null;
+                Job job;
                 synchronized (jobs) {
                     // 如果工作者列表是空的，那么就wait
                     while (jobs.isEmpty()) {
