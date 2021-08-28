@@ -23,7 +23,7 @@ public class Join {
     }
 
     static class Domino implements Runnable {
-        private Thread thread;
+        private final Thread thread;
 
         public Domino(Thread thread) {
             this.thread = thread;
@@ -32,7 +32,7 @@ public class Join {
         public void run() {
             try {
                 thread.join();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
             log.info(Thread.currentThread().getName() + " terminate.");
         }

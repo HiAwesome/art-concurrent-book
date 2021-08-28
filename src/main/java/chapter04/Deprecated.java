@@ -37,6 +37,7 @@ public class Deprecated {
         @Override
         public void run() {
             DateFormat format = new SimpleDateFormat("HH:mm:ss");
+            //noinspection InfiniteLoopStatement
             while (true) {
                 log.info(Thread.currentThread().getName() + " Run at " + format.format(new Date()));
                 SleepUtils.second(1);

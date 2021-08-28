@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 6-7
  */
+@SuppressWarnings("ALL")
 @Slf4j
 public class Interrupted {
 
