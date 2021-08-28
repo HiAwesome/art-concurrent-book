@@ -4,6 +4,7 @@ public class DoubleCheckedLocking { //1
     private static Instance instance; //2
 
     public static Instance getInstance() { //3
+        //noinspection DoubleCheckedLocking
         if (instance == null) { //4:第一次检查
             synchronized (DoubleCheckedLocking.class) { //5:加锁
                 if (instance == null) //6:第二次检查
