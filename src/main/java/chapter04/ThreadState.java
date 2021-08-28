@@ -6,9 +6,10 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * 6-3
  */
+@SuppressWarnings("ALL")
 public class ThreadState {
 
-    private static Lock lock = new ReentrantLock();
+    private static final Lock LOCK = new ReentrantLock();
 
     public static void main(String[] args) {
         new Thread(new TimeWaiting(), "TimeWaitingThread").start();
@@ -67,11 +68,11 @@ public class ThreadState {
 
         @Override
         public void run() {
-            lock.lock();
+            LOCK.lock();
             try {
                 SleepUtils.second(100);
             } finally {
-                lock.unlock();
+                LOCK.unlock();
             }
 
         }

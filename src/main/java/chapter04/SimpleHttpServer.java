@@ -19,7 +19,7 @@ import java.net.Socket;
  */
 public class SimpleHttpServer {
     // 处理HttpRequest的线程池
-    static ThreadPool<HttpRequestHandler> threadPool = new DefaultThreadPool<HttpRequestHandler>(11);
+    static ThreadPool<HttpRequestHandler> threadPool = new DefaultThreadPool<>(11);
     // SimpleHttpServer的根路径
     static String                         basePath;
     static ServerSocket                   serverSocket;
@@ -41,7 +41,7 @@ public class SimpleHttpServer {
     // 启动SimpleHttpServer
     public static void start() throws Exception {
         serverSocket = new ServerSocket(port);
-        Socket socket = null;
+        Socket socket;
         while ((socket = serverSocket.accept()) != null) {
             // 接收一个客户端Socket，生成一个HttpRequestHandler，放入线程池执行
             threadPool.execute(new HttpRequestHandler(socket));
@@ -51,7 +51,7 @@ public class SimpleHttpServer {
 
     static class HttpRequestHandler implements Runnable {
 
-        private Socket socket;
+        private final Socket socket;
 
         public HttpRequestHandler(Socket socket) {
             this.socket = socket;
@@ -59,7 +59,7 @@ public class SimpleHttpServer {
 
         @Override
         public void run() {
-            String line = null;
+            String line;
             BufferedReader br = null;
             BufferedReader reader = null;
             PrintWriter out = null;
@@ -74,7 +74,7 @@ public class SimpleHttpServer {
                 if (filePath.endsWith("jpg") || filePath.endsWith("ico")) {
                     in = new FileInputStream(filePath);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    int i = 0;
+                    int i;
                     while ((i = in.read()) != -1) {
                         baos.write(i);
                     }
@@ -97,6 +97,7 @@ public class SimpleHttpServer {
                 }
                 out.flush();
             } catch (Exception ex) {
+                assert out != null;
                 out.println("HTTP/1.1 500");
                 out.println("");
                 out.flush();
