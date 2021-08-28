@@ -19,21 +19,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class Counter {
 
-    private AtomicInteger atomicI = new AtomicInteger(0);
-    private int i = 0;
+    private final AtomicInteger ATOMIC_INTEGER = new AtomicInteger(0);
+    private int NORMAL_INT = 0;
 
     public static void main(String[] args) {
         final Counter cas = new Counter();
-        List<Thread> ts = new ArrayList<Thread>(600);
+        List<Thread> ts = new ArrayList<>(600);
         long start = System.currentTimeMillis();
         for (int j = 0; j < 100; j++) {
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i < 10000; i++) {
-                        cas.count();
-                        cas.safeCount();
-                    }
+            Thread t = new Thread(() -> {
+                for (int i = 0; i < 10000; i++) {
+                    cas.count();
+                    cas.safeCount();
                 }
             });
             ts.add(t);
@@ -51,9 +48,9 @@ public class Counter {
             }
 
         }
-        log.info("cas.i:{}", cas.i);
-        log.info("cas.atomicI.get():{}", cas.atomicI.get());
-        log.info("time:{}", System.currentTimeMillis() - start);
+        log.info("normal int: {}", cas.NORMAL_INT);
+        log.info("atomic integer: {}", cas.ATOMIC_INTEGER.get());
+        log.info("time: {}", System.currentTimeMillis() - start);
     }
 
     /**
@@ -61,8 +58,8 @@ public class Counter {
      */
     private void safeCount() {
         for (; ; ) {
-            int i = atomicI.get();
-            boolean suc = atomicI.compareAndSet(i, ++i);
+            int i = ATOMIC_INTEGER.get();
+            boolean suc = ATOMIC_INTEGER.compareAndSet(i, ++i);
             if (suc) {
                 break;
             }
@@ -73,7 +70,7 @@ public class Counter {
      * 非线程安全计数器
      */
     private void count() {
-        i++;
+        NORMAL_INT++;
     }
 
 }
