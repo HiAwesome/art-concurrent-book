@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package chapter05;
 
@@ -18,6 +18,7 @@ public class TwinsLockTest {
         final Lock lock = new TwinsLock();
         class Worker extends Thread {
             public void run() {
+                //noinspection InfiniteLoopStatement
                 while (true) {
                     lock.lock();
                     try {

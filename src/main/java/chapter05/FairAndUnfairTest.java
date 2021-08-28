@@ -16,16 +16,16 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public class FairAndUnfairTest {
 
-    private static Lock           fairLock   = new ReentrantLock2(true);
-    private static Lock           unfairLock = new ReentrantLock2(false);
+    private static final Lock FAIR_LOCK = new ReentrantLock2(true);
+    private static final Lock UNFAIR_LOCK = new ReentrantLock2(false);
     private static CountDownLatch start;
 
     public void fair() {
-        testLock(fairLock);
+        testLock(FAIR_LOCK);
     }
 
     public void unfair() {
-        testLock(unfairLock);
+        testLock(UNFAIR_LOCK);
     }
 
     private void testLock(Lock lock) {
@@ -39,7 +39,7 @@ public class FairAndUnfairTest {
     }
 
     private static class Job extends Thread {
-        private Lock lock;
+        private final Lock lock;
 
         public Job(Lock lock) {
             this.lock = lock;
@@ -49,7 +49,7 @@ public class FairAndUnfairTest {
         public void run() {
             try {
                 start.await();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
             for (int i = 0; i < 2; i++) {
                 lock.lock();
@@ -74,7 +74,7 @@ public class FairAndUnfairTest {
         }
 
         public Collection<Thread> getQueuedThreads() {
-            List<Thread> arrayList = new ArrayList<Thread>(super.getQueuedThreads());
+            List<Thread> arrayList = new ArrayList<>(super.getQueuedThreads());
             Collections.reverse(arrayList);
             return arrayList;
         }

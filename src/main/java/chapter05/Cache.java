@@ -14,7 +14,7 @@ public class Cache {
     private static final Lock                   r   = rwl.readLock();
     private static final Lock                   w   = rwl.writeLock();
 
-    public static final Object get(String key) {
+    public static Object get(String key) {
         r.lock();
         try {
             return map.get(key);
@@ -23,7 +23,7 @@ public class Cache {
         }
     }
 
-    public static final Object put(String key, Object value) {
+    public static Object put(String key, Object value) {
         w.lock();
         try {
             return map.put(key, value);
@@ -32,7 +32,7 @@ public class Cache {
         }
     }
 
-    public static final void clear() {
+    public static void clear() {
         w.lock();
         try {
             map.clear();

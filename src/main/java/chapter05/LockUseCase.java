@@ -10,6 +10,7 @@ public class LockUseCase {
     public void lock() {
         Lock lock = new ReentrantLock();
         lock.lock();
+        //noinspection EmptyTryBlock
         try {
         } finally {
             lock.unlock();
